@@ -1,0 +1,38 @@
+[
+    {
+        "id": "6d36c112-17e9-4f0d-8db4-46e7ccac0c01",
+        "title": "Earthquake",
+        "tips": "Drop, cover, and hold on during the shaking. Afterward, be prepared for aftershocks and check for injuries and damage.",
+        "imageUrl": "https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/thumbnails/image/1975earthquake.jpg"
+    },
+    {
+        "id": "3f3ab1a2-8e4a-4a84-944d-9534b6f87110",
+        "title": "Hurricane",
+        "tips": "Evacuate if instructed, secure your property, and stock up on essential supplies. Monitor weather updates closely.",
+        "imageUrl": "https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/thumbnails/image/Hurricane_Sandy_satellite_0.jpg"
+    },
+    {
+        "id": "c7e6d7f8-83b9-4f82-8c1b-5f5aefb65d14",
+        "title": "Tornado",
+        "tips": "Seek shelter in a sturdy building or a tornado shelter. Avoid windows and cover yourself with a mattress or heavy blankets.",
+        "imageUrl": "https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/thumbnails/image/wss-cycle-condensation-clouds-satellite.jpg"
+    },
+    {
+        "id": "b5e55b63-52dd-459a-9df6-4fc5d71d7fcf",
+        "title": "Flood",
+        "tipsr": "Move to higher ground if flooding is imminent. Do not drive through flooded roads, and ensure your emergency kit is ready.",
+        "imageUrl": "https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/media/images/Loewr%20Nooksack%20River%20flooding.jpg"
+    },
+    {
+        "id": "869a7bf4-8927-4a16-9463-2b13b287c8f2",
+        "title": "Tsunami",
+        "tips": "Move inland or to higher ground immediately if a tsunami warning is issued. Stay away from coastal areas.",
+        "imageUrl": "https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/thumbnails/image/Japan2011Natori-damage-10m_0.jpg"
+    },
+    {
+        "id": "f743c1c7-73e3-4c59-b498-ae06f4ab2d01",
+        "title": "Wildfire",
+        "tips": "Evacuate if instructed and follow fire safety guidelines. Keep windows and doors closed and have a wildfire action plan.",
+        "imageUrl": "https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/thumbnails/image/IMG_1934.JPG"
+    }
+]
