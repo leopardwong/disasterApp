@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, Pressable } from 'react-native';
+import { View, Text, SafeAreaView, Pressable, ScrollView } from 'react-native';
 import styles from './styles';
 import Navbar from '../../components/Navbar/Navbar.js';
 import { Colors } from '../../constants/index';
@@ -14,6 +14,7 @@ import {
 } from '@expo-google-fonts/figtree';
 import TitleSection from '../../components/TitleSection';
 import DisasterTipsList from '../../components/DisasterTipsList';
+import EarthquakeSection from '../../components/EarthquakeSection';
 
 export default Home = () => {
   const navigation = useNavigation();
@@ -30,11 +31,14 @@ export default Home = () => {
         }
       /> */}
       <View style={styles.container}>
-        <Pressable onPress={() => navigation.navigate('Notifications')}>
-          <Text style={styles.textStyle}>View Notifications</Text>
-        </Pressable>
-        <TitleSection />
-        <DisasterTipsList navigation={navigation} />
+        <ScrollView>
+          <Pressable onPress={() => navigation.navigate('Notifications')}>
+            <Text style={styles.textStyle}>View Notifications</Text>
+          </Pressable>
+          <TitleSection />
+          <DisasterTipsList navigation={navigation} />
+          <EarthquakeSection/>
+        </ScrollView>
       </View>
     </SafeAreaView>
   );
