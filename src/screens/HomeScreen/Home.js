@@ -12,10 +12,11 @@ import {
   Figtree_500Medium,
   Figtree_700Bold,
 } from '@expo-google-fonts/figtree';
+import TitleSection from '../../components/TitleSection';
+import DisasterTipsList from '../../components/DisasterTipsList';
 
 export default Home = () => {
   const navigation = useNavigation();
-
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
@@ -32,6 +33,8 @@ export default Home = () => {
         <Pressable onPress={() => navigation.navigate('Notifications')}>
           <Text style={styles.textStyle}>View Notifications</Text>
         </Pressable>
+        <TitleSection />
+        <DisasterTipsList navigation={navigation} />
       </View>
     </SafeAreaView>
   );
