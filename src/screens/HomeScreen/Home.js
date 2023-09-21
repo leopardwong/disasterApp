@@ -35,6 +35,9 @@ export default Home = () => {
           <Pressable onPress={() => navigation.navigate('Notifications')}>
             <Text style={styles.textStyle}>View Notifications</Text>
           </Pressable>
+          <Pressable onPress={() => navigation.navigate('MarkSafe')}>
+            <Text style={styles.textStyle}>Goto MarkSafe</Text>
+          </Pressable>
           <TitleSection />
           <DisasterTipsList navigation={navigation} />
           <EarthquakeSection/>

@@ -15,7 +15,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.disasterapp.cantek",
+      "config": {
+        "googleMapsApiKey": "AIzaSyBaRZBeWzDzcX4EtzEsCrPTYiJOouQbt6g"
+      }
     },
     "android": {
       "adaptiveIcon": {
