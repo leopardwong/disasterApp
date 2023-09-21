@@ -51,7 +51,6 @@ export default MarkFamilyFriends = () => {
     );
     myTempList = [];
     querySnapshot.forEach((doc) => {
-      // console.log(`${doc.id} => ${doc.get('name')}`);
       const id = doc.id;
       const name = doc.get('name');
       const isSafe = doc.get('isSafe');

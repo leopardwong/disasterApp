@@ -76,7 +76,6 @@ export default MarkSafe = () => {
   }
 
   async function markmyself() {
-    console.log('HIT API');
     if (input == '') {
       Alert.alert('Please enter your name');
       return;
@@ -90,7 +89,6 @@ export default MarkSafe = () => {
       Alert.alert('Pleas enable location');
       return;
     }
-    console.log(`Save to database ${input}`);
     const myData = {
       name: input,
       isSafe: isSafe,
@@ -104,7 +102,6 @@ export default MarkSafe = () => {
       );
       setInput('');
 
-      console.log(`input ${input}`);
       Alert.alert(
         `Now your family can see that you are ${isSafe ? 'Safe' : 'Not Safe'}`
       );

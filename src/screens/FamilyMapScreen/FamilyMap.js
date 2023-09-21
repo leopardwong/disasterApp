@@ -1,17 +1,11 @@
-import { View, Text, SafeAreaView, Pressable, Alert } from 'react-native';
+import { View, Text, SafeAreaView, Pressable } from 'react-native';
 import styles from './styles';
 import Navbar from '../../components/Navbar/Navbar.js';
 import { Colors } from '../../constants/index';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import {
-  faArrowLeft,
-  faArrowRight,
-  faCheckCircle,
-} from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { useNavigation } from '@react-navigation/native';
-import { collection, addDoc } from 'firebase/firestore';
-import { FIRESTORE_DB } from '../../utils/firebaseConfig';
-import { TableNames } from '../../constants/index';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 
 import {
   useFonts,
@@ -54,6 +48,11 @@ export default FamilyMap = ({ route }) => {
         <Text>{familyModel.name}</Text>
         <Text>{familyModel.latitude}</Text>
         <Text>{familyModel.longitude}</Text>
+        <MapView
+          provider={PROVIDER_GOOGLE}
+          showsUserLocation={true}
+          style={styles.map}
+        />
       </View>
     </SafeAreaView>
   );
