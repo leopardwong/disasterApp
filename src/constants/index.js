@@ -20,7 +20,6 @@ export const Colors = {
   // background
   ui_light_selected_bg: '#f1fffd',
 
-
   // statusbar color
   status_bar_color: '#304081',
 
@@ -43,14 +42,14 @@ export const Fonts = {
   regular: 'Figtree_400Regular',
   light: 'Montserrat-Light',
   medium: 'Figtree_500Medium',
-  bold: 'Montserrat-Regular',
+  bold: 'Figtree_700Bold',
 };
 
 export const Images = {};
 
 export const Icons = {};
 
-
-export const TableNames={
-  notifications : 'notifications'
+export const TableNames = {
+  notifications: 'notifications',
+  markSafe: 'markSafe',
 };
