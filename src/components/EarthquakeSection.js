@@ -1,71 +1,150 @@
-import { View, Text, StyleSheet, FlatList } from 'react-native'
-import React from 'react'
-
+import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native'
+import React, { useState } from 'react'
+import { Card, Title, Paragraph } from 'react-native-paper';
+import Modal from 'react-native-modal';
 
 
 const earthquakeData = [
   {
-    magnitude: '2.5 or less',
-    effects: 'Usually not felt, but can be recorded by seismograph.',
-    estimatedNumber: 'Millions',
+    magnitude: 'Less than 3.5 ',
+    effects: 'Recorded on local seismographs, but generally not felt.',
   },
   {
-    magnitude: '2.5 to 5.4',
-    effects: 'Often felt, but only causes minor damage.',
-    estimatedNumber: '500,000',
+    magnitude: '3.5 - 5.4',
+    effects: 'Often felt, but rarely cause damage.',
   },
   {
-    magnitude: '5.5 to 6.0',
-    effects: 'Slight damage to buildings and other structures.',
-    estimatedNumber: '350',
+    magnitude: 'Under 6.0',
+    effects: 'At most slight damage to well-designed buildings.',
   },
   {
     magnitude: '6.1 to 6.9',
-    effects: 'May cause a lot of damage in very populated areas.',
-    estimatedNumber: '100',
+    effects: 'Can cause damage to poorly constructed buildings',
   },
   {
     magnitude: '7.0 to 7.9',
     effects: 'Major earthquake. Serious damage.',
-    estimatedNumber: '10-15',
   },
   {
     magnitude: '8.0 or greater',
-    effects: 'Great earthquake. Can totally destroy communities near the epicenter.',
-    estimatedNumber: 'One every year or two',
+    effects: 'Great earthquake. Can cause serious damage.',
   },
 ];
 
 
 const EarthquakeSection = () => {
+  const [isBottomSheetVisible, setBottomSheetVisible] = useState(false);
+
+  const toggleBottomSheet = () => {
+    setBottomSheetVisible(!isBottomSheetVisible);
+  };
+
   const renderRow = ({ item }) => (
     <View style={styles.row}>
       <Text style={styles.cell}>{item.magnitude}</Text>
-      <Text style={styles.cell}>{item.effects}</Text>
-      <Text style={styles.cell}>{item.estimatedNumber}</Text>
+      <Text style={styles.textCell}>{item.effects}</Text>
     </View>
   );
-  return (
+
+  return(
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerCell}>Magnitude</Text>
-        <Text style={styles.headerCell}>Earthquake Effects</Text>
-        <Text style={styles.headerCell}>Estimated Number Each Year</Text>
+      <View style={styles.rowTitle}>
+        <Title style={styles.title}>Earthquake Quake Record</Title>
+        <TouchableOpacity onPress={toggleBottomSheet}>
+          <Text
+            style={{
+              color: "#839D8E",
+              fontWeight: "600",
+              fontSize: 18,
+            }}
+          >
+            Scale
+          </Text>
+        </TouchableOpacity>
+        
+        <Modal
+          isVisible={isBottomSheetVisible}
+          onBackdropPress={toggleBottomSheet}
+          swipeDirection="down"
+          onSwipeComplete={toggleBottomSheet}
+          style={styles.bottomSheet}
+        >
+          <View style={styles.bottomSheetContent}>
+            <View style={styles.container}>
+              <View style={styles.header}>
+                <Text style={styles.headerCell}>Magnitude</Text>
+                <Text style={styles.headerTextCell}>Earthquake Effects</Text>
+              </View>
+              <FlatList
+                data={earthquakeData}
+                renderItem={renderRow}
+                keyExtractor={(item, index) => index.toString()}
+              />
+            </View>
+          </View>
+        </Modal>
+        
+
       </View>
-      <FlatList
-        data={earthquakeData}
-        renderItem={renderRow}
-        keyExtractor={(item, index) => index.toString()}
-      />
+      <Card style={styles.lowCard}>
+        <Card.Content style={styles.row}>
+          <View style={styles.center}>
+            <Text style={styles.text}>2.5</Text>
+          </View>
+          <Card.Content style={styles.column}>
+            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>19 min ago</Text>
+            <Text style={{ fontSize: 16,  }}>CROATIA</Text>
+          </Card.Content>      
+        </Card.Content>
+      </Card>
+
+      <Card style={styles.midCard}>
+        <Card.Content style={styles.row}>
+          <View style={styles.center}>
+            <Text style={styles.text}>4.7</Text>
+          </View>
+          <Card.Content style={styles.column}>
+            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>4 hr 52 min ago</Text>
+            <Text style={{ fontSize: 16, }}>CROATIA</Text>
+          </Card.Content>      
+        </Card.Content>
+      </Card>
+
+      <Card style={styles.highCard}>
+        <Card.Content style={styles.row}>
+          <View style={styles.center}>
+            <Text style={styles.text}>7.8</Text>
+          </View>
+          <Card.Content style={styles.column}>
+            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>19 hr 52 min ago</Text>
+            <Text style={{ fontSize: 16,  }}>ALBANIA</Text>
+          </Card.Content>      
+        </Card.Content>
+      </Card>
     </View>
+
   )
 }
 
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     margin: 20,
+  },
+  lowCard: {
+    marginTop:20,
+    flex: 1,
+    backgroundColor: '#90EE90'
+  },
+  midCard: {
+    marginTop:20,
+    flex: 1,
+    backgroundColor: 'yellow'
+  },
+  highCard: {
+    marginTop:20,
+    flex: 1,
+    backgroundColor: 'red'
   },
   header: {
     flexDirection: 'row',
@@ -77,15 +156,53 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
   },
+  headerTextCell: {
+    flex: 2,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
   row: {
     flexDirection: 'row',
-    padding: 5,
-    borderBottomWidth: 1,
-    borderBottomColor: 'gray',
+  },
+  rowTitle: {
+    flexDirection: 'row',
+    alignItems: 'center', 
+    justifyContent: 'space-between',
+  },
+  column: {
+    flexDirection: 'column',
+    justifyContent: 'center',
   },
   cell: {
     flex: 1,
     textAlign: 'center',
+    padding:6
+  },
+  textCell: {
+    flex: 2,
+    textAlign: 'center',
+    padding:6,
+  },
+  center: {
+    justifyContent: 'center',
+  },
+  text: {
+    fontSize: 48, 
+  },
+  title: {
+    fontWeight: 'bold', // Make the title text bold
+  },
+  bottomSheet: {
+    justifyContent: 'flex-end',
+    margin: 0,
+  },
+  bottomSheetContent: {
+    backgroundColor: 'white',
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+  },
+  bottomSheetContainer: {
+      
   },
 });
 
