@@ -63,7 +63,7 @@ export default MarkFamilyFriends = () => {
         latitude: latitude,
         longitude: longitude,
       };
-      console.log(myModel);
+
       setFamilyList((prevList) => [...prevList, myModel]);
     });
   }
