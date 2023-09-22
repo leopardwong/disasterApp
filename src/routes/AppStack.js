@@ -7,6 +7,7 @@ import Home from "../screens/HomeScreen/Home";
 import MarkFamilyFriends from "../screens/MarkFamilyFriendsScreen/MarkFamilyFriends";
 import MarkSafe from "../screens/MarkSafeScreen/MarkSafe";
 import Notifications from "../screens/NotificationScreen/Notifications";
+import CurrentDisasters from '../screens/CurrentDisastersScreen/CurrentDisasters';
 
 const Stack = createNativeStackNavigator();
 
@@ -20,7 +21,7 @@ export function AppStack() {
 
             <Stack.Screen name="Notifications" component={Notifications} />
             <Stack.Screen name="Admin" component={AdminPanel} />
-
+            <Stack.Screen name="CurrentDisasters" component={CurrentDisasters} />
             <Stack.Screen name="MarkSafe" component={MarkSafe} />
             <Stack.Screen
                 name="MarkFamilyFriends"
