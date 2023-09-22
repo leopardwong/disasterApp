@@ -1,5 +1,6 @@
 import { View, Text, SafeAreaView, Pressable, StyleSheet, FlatList, ImageBackground } from 'react-native';
 import { Colors } from '../constants/index';
+import { Title } from 'react-native-paper';
 import disasterTipsListData from '../modal/disasterTips.json';
 import { useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient'
@@ -25,7 +26,7 @@ export default DisasterTipsList = ({ navigation }) => {
     return (
         <View>
             <View style={styles.container}>
-                <Text style={styles.title}>Tips</Text>
+                <Title style={styles.title}>Tips</Title>
             </View>
             <View>
                 <FlatList
@@ -56,7 +57,7 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
     },
     title: {
-        fontSize: 17,
+        fontWeight: 'bold',
         marginBottom: 10,
     },
     item: {
