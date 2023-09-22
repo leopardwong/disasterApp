@@ -40,7 +40,7 @@ export const Colors = {
 };
 export const Fonts = {
   regular: 'Figtree_400Regular',
-  light: 'Montserrat-Light',
+  light: 'Figtree_400Regular',
   medium: 'Figtree_500Medium',
   bold: 'Figtree_700Bold',
 };
