@@ -37,11 +37,11 @@ const NotificationItem = ({ title, body, location, createdAt, severity }) => {
         }));
     };
 
-    const isWithinOneDay = (createdAt) => {
-        const ONE_DAY_IN_MS = 86400000;
+    const isWithinOneHour = (createdAt) => {
+        const ONE_HOUR_IN_MS = 3600000;
         const now = new Date();
         const createdAtDate = new Date(createdAt);
-        return now - createdAtDate < ONE_DAY_IN_MS;
+        return now - createdAtDate < ONE_HOUR_IN_MS;
     };
 
     const rippleLayer = (index) => (
@@ -49,7 +49,10 @@ const NotificationItem = ({ title, body, location, createdAt, severity }) => {
             key={index}
             style={[
                 styles.rippleLayer,
-                { backgroundColor: SEVERITY_COLORS[severity ?? "low"] },
+                {
+                    backgroundColor:
+                        SEVERITY_COLORS[severity?.toLowerCase() ?? "low"],
+                },
                 getAnimatedStyle(index),
             ]}
         />
@@ -57,13 +60,13 @@ const NotificationItem = ({ title, body, location, createdAt, severity }) => {
 
     return (
         <View style={styles.notificationItem}>
-            {isWithinOneDay(createdAt) &&
+            {isWithinOneHour(createdAt) &&
                 Array(2)
                     .fill(0)
                     .map((_, index) => rippleLayer(index))}
             <View style={styles.notificationTitleContainer}>
                 <Text style={styles.notificationTitle}>{title}</Text>
-                {isWithinOneDay(createdAt) && (
+                {isWithinOneHour(createdAt) && (
                     <Text style={styles.notificationWarning}>Now</Text>
                 )}
             </View>

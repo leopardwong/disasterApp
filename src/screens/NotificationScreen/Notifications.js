@@ -1,6 +1,6 @@
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import {
     Dimensions,
@@ -22,16 +22,17 @@ const Notifications = ({ navigation }) => {
     const { bottom } = useSafeAreaInsets();
 
     useEffect(() => {
-        const unsubscribe = onSnapshot(
+        const q = query(
             collection(FIRESTORE_DB, "notifications"),
-            (snapshot) => {
-                const notifications = snapshot.docs.map((doc) => ({
-                    id: doc.id,
-                    ...doc.data(),
-                }));
-                setNotifications(notifications);
-            }
+            orderBy("createdAt", "desc")
         );
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+            const notifications = snapshot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data(),
+            }));
+            setNotifications(notifications);
+        });
         return () => unsubscribe();
     }, []);
 
@@ -43,12 +44,11 @@ const Notifications = ({ navigation }) => {
         <SafeAreaView style={styles.safeAreaView}>
             <Navbar
                 title="Notifications"
-                titleColor={Colors.main_green}
                 leadingView={
                     <Pressable onPress={() => handleBack(navigation)}>
                         <FontAwesomeIcon
                             icon={faArrowLeft}
-                            color={Colors.main_green}
+                            color={Colors.white}
                         />
                     </Pressable>
                 }
@@ -58,12 +58,14 @@ const Notifications = ({ navigation }) => {
                     </Pressable>
                 }
             />
-            <FlatList
-                keyExtractor={(item) => item.id}
-                data={notifications}
-                renderItem={({ item }) => <NotificationItem {...item} />}
-                ListFooterComponent={<View style={{ height: bottom }} />}
-            />
+            <View style={styles.container}>
+                <FlatList
+                    keyExtractor={(item) => item.id}
+                    data={notifications}
+                    renderItem={({ item }) => <NotificationItem {...item} />}
+                    ListFooterComponent={<View style={{ height: bottom }} />}
+                />
+            </View>
         </SafeAreaView>
     );
 };
@@ -77,5 +79,12 @@ const styles = StyleSheet.create({
     safeAreaView: {
         flex: 1,
         backgroundColor: Colors.status_bar_color,
+    },
+    container: {
+        flex: 1,
+        backgroundColor: Colors.ui_light_selected_bg,
+    },
+    navbarActionText: {
+        color: Colors.white,
     },
 });
