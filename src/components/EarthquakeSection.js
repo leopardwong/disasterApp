@@ -49,7 +49,7 @@ const EarthquakeSection = () => {
   return(
     <View style={styles.container}>
       <View style={styles.rowTitle}>
-        <Title style={styles.title}>Earthquake Quake Record</Title>
+        <Title style={styles.title}>Earthquake Magnitude Record</Title>
         <TouchableOpacity onPress={toggleBottomSheet}>
           <Text
             style={{
