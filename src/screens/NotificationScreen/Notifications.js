@@ -1,100 +1,81 @@
-import react, { useState } from 'react';
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { collection, onSnapshot } from "firebase/firestore";
+import { useEffect, useState } from "react";
 import {
-  View,
-  Text,
-  SafeAreaView,
-  TextInput,
-  Pressable,
-  Switch,
-} from 'react-native';
-import styles from './styles';
-import { collection, addDoc } from 'firebase/firestore';
-import { FIRESTORE_DB } from '../../utils/firebaseConfig';
-import { TableNames } from '../../constants/index';
-import Navbar from '../../components/Navbar/Navbar.js';
-import { Colors } from '../../constants/index';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+    Dimensions,
+    FlatList,
+    Pressable,
+    SafeAreaView,
+    StyleSheet,
+    Text,
+    View,
+} from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import Navbar from "../../components/Navbar/Navbar.js";
+import NotificationItem from "../../components/NotificationItem";
+import { Colors } from "../../constants/index";
+import { FIRESTORE_DB } from "../../utils/firebaseConfig";
 
-import {
-  useFonts,
-  Figtree_400Regular,
-  Figtree_500Medium,
-  Figtree_700Bold,
-} from '@expo-google-fonts/figtree';
-import { useNavigation } from '@react-navigation/native';
+const Notifications = ({ navigation }) => {
+    const [notifications, setNotifications] = useState([]);
+    const { bottom } = useSafeAreaInsets();
 
-export default Notifications = () => {
-  const [input, setInput] = useState('');
-  const [isSafe, setIsSafe] = useState(false);
-  const toggleSwitch = () => setIsSafe((previousState) => !previousState);
-  const navigation = useNavigation();
+    useEffect(() => {
+        const unsubscribe = onSnapshot(
+            collection(FIRESTORE_DB, "notifications"),
+            (snapshot) => {
+                const notifications = snapshot.docs.map((doc) => ({
+                    id: doc.id,
+                    ...doc.data(),
+                }));
+                setNotifications(notifications);
+            }
+        );
+        return () => unsubscribe();
+    }, []);
 
-  let [fontsLoaded] = useFonts({
-    Figtree_700Bold,
-    Figtree_500Medium,
-    Figtree_400Regular,
-  });
-
-  if (!fontsLoaded) {
-    return null;
-  }
-  async function saveToDatabase() {
-    console.log(`Save to database ${input}`);
-    const myData = {
-      name: input,
-      isSafe: isSafe,
-    };
-    try {
-      const docRef = await addDoc(
-        collection(FIRESTORE_DB, TableNames.notifications),
-        myData
-      );
-      setInput('');
-      setIsSafe(false);
-      console.log(`input ${input}`);
-
-      console.log('Document written with ID: ', docRef.id);
-    } catch (e) {
-      console.error('Error adding document: ', e);
+    function handleBack() {
+        navigation.goBack();
     }
-  }
 
-  function handleBack() {
-    navigation.goBack();
-  }
-
-  return (
-    <SafeAreaView style={styles.safeAreaView}>
-      <Navbar
-        title="Notifications"
-        titleColor={Colors.main_green}
-        leadingView={
-          <Pressable onPress={() => handleBack(navigation)}>
-            <FontAwesomeIcon icon={faArrowLeft} color={Colors.main_green} />
-          </Pressable>
-        }
-      />
-      <View style={styles.container}>
-        <TextInput
-          onChangeText={setInput}
-          style={styles.inputStyle}
-          placeholder="Hello"
-          value={input}
-        ></TextInput>
-        <Pressable onPress={saveToDatabase}>
-          <View style={styles.buttonView}>
-            <Text style={styles.textStyle}>Click Me</Text>
-          </View>
-        </Pressable>
-        <Switch
-          trackColor={{ false: '#767577', true: '#81b0ff' }}
-          thumbColor={isSafe ? '#f5dd4b' : '#f4f3f4'}
-          ios_backgroundColor="#3e3e3e"
-          onValueChange={toggleSwitch}
-          value={isSafe}
-        />
-      </View>
-    </SafeAreaView>
-  );
+    return (
+        <SafeAreaView style={styles.safeAreaView}>
+            <Navbar
+                title="Notifications"
+                titleColor={Colors.main_green}
+                leadingView={
+                    <Pressable onPress={() => handleBack(navigation)}>
+                        <FontAwesomeIcon
+                            icon={faArrowLeft}
+                            color={Colors.main_green}
+                        />
+                    </Pressable>
+                }
+                actionViews={
+                    <Pressable onPress={() => navigation.navigate("Admin")}>
+                        <Text style={styles.navbarActionText}>Admin</Text>
+                    </Pressable>
+                }
+            />
+            <FlatList
+                keyExtractor={(item) => item.id}
+                data={notifications}
+                renderItem={({ item }) => <NotificationItem {...item} />}
+                ListFooterComponent={<View style={{ height: bottom }} />}
+            />
+        </SafeAreaView>
+    );
 };
+
+export default Notifications;
+
+const windowHeight = Dimensions.get("window").height;
+const windowWidth = Dimensions.get("window").width;
+
+const styles = StyleSheet.create({
+    safeAreaView: {
+        flex: 1,
+        backgroundColor: Colors.status_bar_color,
+    },
+});
