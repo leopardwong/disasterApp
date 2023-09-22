@@ -14,11 +14,38 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.ui_light_selected_bg,
     flex: 1,
   },
+  iconStyle: {
+    marginHorizontal: 20,
+    marginTop: 20,
+    alignSelf: 'flex-end',
+  },
   textStyle: {
     textAlign: 'right',
     color: Colors.text_color,
     textDecorationLine: 'underline',
     margin: 15,
+  },
+  cardItem: {
+    backgroundColor: Colors.main_color_light,
+    height: 100,
+    elevation: 3,
+    marginHorizontal: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    borderRadius: 10,
+    padding: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  cardTextstyle: {
+    color: Colors.white,
+    fontFamily: Fonts.bold,
+    fontSize: 30,
+  },
+  spacer:{
+    height:10,
   },
 });
 
