@@ -1,20 +1,28 @@
-import { StyleSheet, Text, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { AppStack } from './src/routes/AppStack';
+import { NavigationContainer } from "@react-navigation/native";
+import * as Notifications from "expo-notifications";
+import { useEffect } from "react";
+import Toast from "react-native-toast-message";
+import { AppStack } from "./src/routes/AppStack";
+import { registerForPushNotificationsAsync } from "./src/utils/notificationUtils";
+import { toastConfig } from "./src/utils/toastUtils";
+
+Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+        shouldShowAlert: true,
+        shouldPlaySound: true,
+        shouldSetBadge: true,
+    }),
+});
 
 export default function App() {
-  return (
-    <NavigationContainer>
-      <AppStack />
-    </NavigationContainer>
-  );
-}
+    useEffect(() => {
+        registerForPushNotificationsAsync();
+    }, []);
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+    return (
+        <NavigationContainer>
+            <AppStack />
+            <Toast config={toastConfig} />
+        </NavigationContainer>
+    );
+}
