@@ -1,5 +1,5 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { default as React, default as React } from "react";
+import { default as React } from "react";
 import AdminPanel from "../screens/AdminPanel/AdminPanel";
 import DisasterTipsDetail from "../screens/DisasterTipsDetailScreen/DisasterTipsDetail";
 import FamilyMap from "../screens/FamilyMapScreen/FamilyMap";
