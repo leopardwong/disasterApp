@@ -1,5 +1,7 @@
 import React from "react";
-import { Text, TouchableNativeFeedback, View } from "react-native";
+import { Dimensions, Text, TouchableNativeFeedback, View } from "react-native";
+
+const windowWidth = Dimensions.get("window").width;
 
 export const toastConfig = {
     disasterToast: ({ text1, text2, onPress, props }) => {
@@ -13,6 +15,7 @@ export const toastConfig = {
                         borderRadius: 8,
                         paddingHorizontal: 16,
                         paddingVertical: 12,
+                        width: windowWidth - 32,
                     }}
                 >
                     <View
@@ -28,7 +31,7 @@ export const toastConfig = {
                     >
                         <Text style={{ fontSize: 48 }}>⚠️</Text>
                     </View>
-                    <View>
+                    <View style={{ flex: 1 }}>
                         <Text
                             style={{
                                 fontSize: 16,

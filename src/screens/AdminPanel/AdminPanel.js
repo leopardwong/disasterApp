@@ -1,6 +1,7 @@
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { addDoc, collection } from "firebase/firestore";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
@@ -16,7 +17,8 @@ import {
 import Toast from "react-native-toast-message";
 import * as yup from "yup";
 import Navbar from "../../components/Navbar/Navbar.js";
-import { Colors } from "../../constants/index";
+import { Colors, TableNames } from "../../constants/index";
+import { FIRESTORE_DB } from "../../utils/firebaseConfig";
 
 const schema = yup.object().shape({
     title: yup.string().required(),
@@ -24,7 +26,7 @@ const schema = yup.object().shape({
     location: yup.string().required(),
     detail: yup.string(),
     contactInfo: yup.string(),
-    urgency: yup.string(),
+    // urgency: yup.string(),
     severity: yup.string(),
 });
 
@@ -56,12 +58,12 @@ const AdminPanel = ({ navigation }) => {
         console.log(data);
 
         try {
-            // const docRef = await addDoc(
-            //     collection(FIRESTORE_DB, TableNames.notifications),
-            //     data
-            // );
-            // reset();
-            // console.log("Document written with ID: ", docRef.id);
+            const docRef = await addDoc(
+                collection(FIRESTORE_DB, TableNames.notifications),
+                { ...data, createdAt: new Date().toISOString() }
+            );
+            reset();
+            console.log("Document written with ID: ", docRef.id);
 
             const message = `${data.body} in ${data.location ?? "Canada"}`;
             // schedulePushNotification(
@@ -74,6 +76,28 @@ const AdminPanel = ({ navigation }) => {
             console.error("Error adding document: ", e);
         }
     };
+
+    const FormField = ({ name, defaultValue, placeholder }) => (
+        <>
+            <Controller
+                control={control}
+                name={name}
+                defaultValue={defaultValue}
+                rules={{ required: true }}
+                render={({ field: { onChange, value } }) => (
+                    <TextInput
+                        style={styles.input}
+                        placeholder={placeholder}
+                        onChangeText={(text) => onChange(text)}
+                        value={value}
+                    />
+                )}
+            />
+            {errors[name] && (
+                <Text style={styles.error}>{errors[name].message}</Text>
+            )}
+        </>
+    );
 
     return (
         <SafeAreaView style={styles.safeAreaView}>
@@ -91,59 +115,17 @@ const AdminPanel = ({ navigation }) => {
                     }
                 />
                 <View style={styles.container}>
-                    <Controller
-                        control={control}
+                    <FormField
                         name="title"
                         defaultValue="Warning"
-                        rules={{ required: true }}
-                        render={({ field: { onChange, value } }) => (
-                            <TextInput
-                                style={styles.input}
-                                placeholder="Warning"
-                                onChangeText={(text) => onChange(text)}
-                                value={value}
-                            />
-                        )}
+                        placeholder="Warning"
                     />
-                    {errors?.title && (
-                        <Text style={styles.error}>{errors.title.message}</Text>
-                    )}
-                    <Controller
-                        control={control}
-                        name="body"
-                        defaultValue=""
-                        rules={{ required: true }}
-                        render={({ field: { onChange, value } }) => (
-                            <TextInput
-                                style={styles.input}
-                                placeholder="Body"
-                                onChangeText={(text) => onChange(text)}
-                                value={value}
-                            />
-                        )}
-                    />
-                    {errors?.body && (
-                        <Text style={styles.error}>{errors.body.message}</Text>
-                    )}
-                    <Controller
-                        control={control}
+                    <FormField name="body" defaultValue="" placeholder="Body" />
+                    <FormField
                         name="location"
                         defaultValue=""
-                        rules={{ required: true }}
-                        render={({ field: { onChange, value } }) => (
-                            <TextInput
-                                style={styles.input}
-                                placeholder="Location"
-                                onChangeText={(text) => onChange(text)}
-                                value={value}
-                            />
-                        )}
+                        placeholder="Location"
                     />
-                    {errors?.location && (
-                        <Text style={styles.error}>
-                            {errors.location.message}
-                        </Text>
-                    )}
                     <TouchableOpacity
                         onPress={() => setIsCollapsed(!isCollapsed)}
                     >
@@ -153,82 +135,16 @@ const AdminPanel = ({ navigation }) => {
                     </TouchableOpacity>
                     {!isCollapsed && (
                         <>
-                            <Controller
-                                control={control}
+                            <FormField
                                 name="detail"
                                 defaultValue=""
-                                rules={{ required: true }}
-                                render={({ field: { onChange, value } }) => (
-                                    <TextInput
-                                        style={styles.input}
-                                        placeholder="Detail"
-                                        onChangeText={(text) => onChange(text)}
-                                        value={value}
-                                    />
-                                )}
+                                placeholder="Detail"
                             />
-                            {errors?.detail && (
-                                <Text style={styles.error}>
-                                    {errors.detail.message}
-                                </Text>
-                            )}
-                            <Controller
-                                control={control}
-                                name="contactInfo"
-                                defaultValue=""
-                                rules={{ required: true }}
-                                render={({ field: { onChange, value } }) => (
-                                    <TextInput
-                                        style={styles.input}
-                                        placeholder="Contact Info"
-                                        onChangeText={(text) => onChange(text)}
-                                        value={value}
-                                    />
-                                )}
-                            />
-                            {errors?.contactInfo && (
-                                <Text style={styles.error}>
-                                    {errors.contactInfo.message}
-                                </Text>
-                            )}
-                            <Controller
-                                control={control}
-                                name="urgency"
-                                defaultValue=""
-                                rules={{ required: true }}
-                                render={({ field: { onChange, value } }) => (
-                                    <TextInput
-                                        style={styles.input}
-                                        placeholder="Urgency"
-                                        onChangeText={(text) => onChange(text)}
-                                        value={value}
-                                    />
-                                )}
-                            />
-                            {errors?.urgency && (
-                                <Text style={styles.error}>
-                                    {errors.urgency.message}
-                                </Text>
-                            )}
-                            <Controller
-                                control={control}
+                            <FormField
                                 name="severity"
                                 defaultValue=""
-                                rules={{ required: true }}
-                                render={({ field: { onChange, value } }) => (
-                                    <TextInput
-                                        style={styles.input}
-                                        placeholder="Severity"
-                                        onChangeText={(text) => onChange(text)}
-                                        value={value}
-                                    />
-                                )}
+                                placeholder="Severity"
                             />
-                            {errors?.severity && (
-                                <Text style={styles.error}>
-                                    {errors.severity.message}
-                                </Text>
-                            )}
                         </>
                     )}
                     <TouchableOpacity
