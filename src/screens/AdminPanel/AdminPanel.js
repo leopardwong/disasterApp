@@ -12,8 +12,8 @@ import {
     Text,
     TextInput,
     TouchableOpacity,
-    View,
 } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
 import * as yup from "yup";
 import Navbar from "../../components/Navbar/Navbar.js";
@@ -31,6 +31,7 @@ const schema = yup.object().shape({
 });
 
 const AdminPanel = ({ navigation }) => {
+    const insets = useSafeAreaInsets();
     const [isCollapsed, setIsCollapsed] = useState(true);
     const {
         control,
@@ -101,60 +102,55 @@ const AdminPanel = ({ navigation }) => {
 
     return (
         <SafeAreaView style={styles.safeAreaView}>
-            <ScrollView>
-                <Navbar
-                    title="Admin"
-                    titleColor={Colors.main_green}
-                    leadingView={
-                        <Pressable onPress={() => navigation.goBack()}>
-                            <FontAwesomeIcon
-                                icon={faArrowLeft}
-                                color={Colors.main_green}
-                            />
-                        </Pressable>
-                    }
+            <Navbar
+                title="Admin"
+                leadingView={
+                    <Pressable onPress={() => navigation.goBack()}>
+                        <FontAwesomeIcon
+                            icon={faArrowLeft}
+                            color={Colors.white}
+                        />
+                    </Pressable>
+                }
+            />
+            <ScrollView style={styles.container}>
+                <FormField
+                    name="title"
+                    defaultValue="Warning"
+                    placeholder="Warning"
                 />
-                <View style={styles.container}>
-                    <FormField
-                        name="title"
-                        defaultValue="Warning"
-                        placeholder="Warning"
-                    />
-                    <FormField name="body" defaultValue="" placeholder="Body" />
-                    <FormField
-                        name="location"
-                        defaultValue=""
-                        placeholder="Location"
-                    />
-                    <TouchableOpacity
-                        onPress={() => setIsCollapsed(!isCollapsed)}
-                    >
-                        <Text style={styles.button}>
-                            {isCollapsed ? "Show Details" : "Hide Details"}
-                        </Text>
-                    </TouchableOpacity>
-                    {!isCollapsed && (
-                        <>
-                            <FormField
-                                name="detail"
-                                defaultValue=""
-                                placeholder="Detail"
-                            />
-                            <FormField
-                                name="severity"
-                                defaultValue=""
-                                placeholder="Severity"
-                            />
-                        </>
-                    )}
-                    <TouchableOpacity
-                        style={styles.submitButton}
-                        onPress={handleSubmit(onSubmit)}
-                    >
-                        <Text style={styles.submitButtonText}>Submit</Text>
-                    </TouchableOpacity>
-                </View>
+                <FormField name="body" defaultValue="" placeholder="Body" />
+                <FormField
+                    name="location"
+                    defaultValue=""
+                    placeholder="Location"
+                />
+                <TouchableOpacity onPress={() => setIsCollapsed(!isCollapsed)}>
+                    <Text style={styles.button}>
+                        {isCollapsed ? "Show Details" : "Hide Details"}
+                    </Text>
+                </TouchableOpacity>
+                {!isCollapsed && (
+                    <>
+                        <FormField
+                            name="detail"
+                            defaultValue=""
+                            placeholder="Detail"
+                        />
+                        <FormField
+                            name="severity"
+                            defaultValue=""
+                            placeholder="Severity"
+                        />
+                    </>
+                )}
             </ScrollView>
+            <TouchableOpacity
+                style={[styles.submitButton, { marginBottom: insets.bottom }]}
+                onPress={handleSubmit(onSubmit)}
+            >
+                <Text style={styles.submitButtonText}>Submit</Text>
+            </TouchableOpacity>
         </SafeAreaView>
     );
 };
@@ -164,11 +160,12 @@ export default AdminPanel;
 const styles = StyleSheet.create({
     safeAreaView: {
         backgroundColor: Colors.status_bar_color,
+        flex: 1, // Add this line
     },
     container: {
-        flex: 1,
+        flex: 1, // Add this line
         padding: 20,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.ui_light_selected_bg,
     },
     input: {
         height: 40,
@@ -185,6 +182,8 @@ const styles = StyleSheet.create({
         backgroundColor: "blue",
         padding: 10,
         borderRadius: 5,
+        height: 56,
+        justifyContent: "center",
     },
     submitButtonText: {
         color: "white",
