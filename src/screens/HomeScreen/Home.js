@@ -15,6 +15,7 @@ import {
 import TitleSection from '../../components/TitleSection';
 import DisasterTipsList from '../../components/DisasterTipsList';
 import EarthquakeSection from '../../components/EarthquakeSection';
+import NearestShelterSection from '../../components/NearestShelterSection';
 
 export default Home = () => {
   const navigation = useNavigation();
@@ -39,8 +40,9 @@ export default Home = () => {
             <Text style={styles.textStyle}>Goto MarkSafe</Text>
           </Pressable>
           <TitleSection />
+          <NearestShelterSection />
           <DisasterTipsList navigation={navigation} />
-          <EarthquakeSection/>
+          <EarthquakeSection />
         </ScrollView>
       </View>
     </SafeAreaView>
